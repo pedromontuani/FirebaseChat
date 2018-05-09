@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{pageTitle}}
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <msg-box *ngFor="let message of (messagesList | async)" [message]="message" [isFromSender]="(message.uid == senderUid)">
+  </msg-box>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item no-lines>
+      <ion-input type="text" placeholder="Mensagem..." [(ngModel)]="newMessage"></ion-input>
+      <button ion-button item-right (click)="sendMessage(newMessage); newMessage=''">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

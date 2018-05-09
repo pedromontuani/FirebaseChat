@@ -1,0 +1,32 @@
+<ion-header>
+  <custom-logged-header [title]="'User Profile'"></custom-logged-header>
+
+
+</ion-header>
+
+
+<ion-content padding>
+  <user-info [user]="currentUser"></user-info>
+
+  <button ion-button block (click)="canEdit = !canEdit">Editar</button>
+
+  <form (ngSubmit)="onSubmit($event)" *ngIf="canEdit" #profileForm="ngForm">
+    <ion-item>
+      <ion-input type="text" 
+        placeholder="Nome" name="name" 
+        [(ngModel)]="currentUser.name" 
+        required minlength="3">
+      </ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input type="text" 
+        placeholder="Username" name="username" 
+        [(ngModel)]="currentUser.username" 
+        required minlength="3">
+      </ion-input>
+    </ion-item>
+
+    <button ion-button block type="submit" [disabled]="profileForm.form.invalid">Salvar</button>
+  </form>
+</ion-content>
