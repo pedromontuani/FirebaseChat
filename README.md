@@ -1,1 +1,1 @@
-Aplicativo híbrido simples de bate-papo desenvolvida com Ionic 3 e Firebase.
+Aplicativo híbrido simples de bate-papo desenvolvido com Ionic 3 e Firebase.
