@@ -1,7 +1,12 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      {{pageTitle}}
+      <ion-item detail-none no-lines color="transparent">
+        <ion-avatar item-start>
+          <img [src]="recipient.photo || 'assets/imgs/no-photo.jpg'">
+        </ion-avatar>
+        {{pageTitle}}
+      </ion-item>
     </ion-title>
   </ion-navbar>
 

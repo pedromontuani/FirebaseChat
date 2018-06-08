@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Loading, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '../../models/user.model';
 import { UserProvider } from '../../providers/user/user';
@@ -20,12 +20,15 @@ export class UserProfilePage {
   
   currentUser: User;
   canEdit: boolean = false;
+  filePhoto: File;
+  uploadProgress: number;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public authService: AuthProvider,
-    public userService: UserProvider
+    public userService: UserProvider,
+    public loadingCtrl: LoadingController
   ) {
   }
 
@@ -40,8 +43,21 @@ export class UserProfilePage {
   }
 
   onSubmit(event: Event): void{
+    let loading: Loading = this.showLoading();
     event.preventDefault();
-    this.editUser();
+    if(this.filePhoto){
+      let uploadTask = this.userService.uploadPhoto(this.filePhoto, this.userService.currentUserUid);
+      uploadTask.on('state_changed', (snahpshot: firebase.storage.UploadTaskSnapshot) => {
+          
+      }, (error: Error) => {
+        console.log(error);
+      }, () => {
+        this.editUser(uploadTask.snapshot.downloadURL);
+      });
+    } else {
+      this.editUser();
+    }
+    loading.dismiss();
   }
 
   private editUser(photoUrl?: string): void{
@@ -51,7 +67,20 @@ export class UserProfilePage {
       photo: photoUrl || this.currentUser.photo || ''
     }).then(() => {
       this.canEdit = false;
+      this.filePhoto = undefined;
+      this.uploadProgress = 0;
     });
   }
 
+  private showLoading(): Loading{
+    let loading: Loading = this.loadingCtrl.create({
+      content: "Aguarde..."
+    });
+    loading.present();
+    return loading;
+  }
+
+  onPhoto(event){
+    this.filePhoto = event.target.files[0];
+  }
 }

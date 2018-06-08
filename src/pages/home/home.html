@@ -2,7 +2,7 @@
   <custom-logged-header [title]="view"></custom-logged-header>
 
   <ion-toolbar>
-    <ion-segment [(ngModel)] = "view">
+    <ion-segment [(ngModel)]="view">
       <ion-segment-button value="chats">
         Chats
       </ion-segment-button>
@@ -19,10 +19,13 @@
 </ion-header>
 
 <ion-content padding>
-  <div [ngSwitch] = "view">
+  <div [ngSwitch]="view">
     <ion-list *ngSwitchCase="'chats'">
       <div *ngFor="let chat of (chats | async)">
         <button ion-item *ngIf="chat.lastMessage" (click)="onChatOpen(chat)">
+            <ion-avatar item-start>
+                <img [src]="chat.photo || 'assets/imgs/no-photo.jpg'">
+              </ion-avatar>
           <h2>{{chat.title}}</h2>
           <p>{{chat.timestamp | date:'dd/MM/y H:mm'}} - {{chat.lastMessage}}</p>
         </button>
@@ -31,7 +34,10 @@
 
     <ion-list *ngSwitchCase="'users'">
       <button ion-item *ngFor="let user of (users | async)" (click)="onChatCreate(user)">
-          {{user.name}}
+        <ion-avatar item-start>
+          <img [src]="user.photo || 'assets/imgs/no-photo.jpg'">
+        </ion-avatar>
+        {{user.name}}
       </button>
     </ion-list>
   </div>

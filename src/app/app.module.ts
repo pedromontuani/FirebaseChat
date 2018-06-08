@@ -24,6 +24,7 @@ import { MessageProvider } from '../providers/message/message';
 import { MsgBoxComponent } from '../components/msg-box/msg-box';
 import { UserInfoComponent } from '../components/user-info/user-info';
 import { UserMenuComponent } from '../components/user-menu/user-menu';
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyDom-hLWDyDcXRlKTseO3cQ_8T96k1vxCw",
@@ -44,7 +45,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     MsgBoxComponent,
     UserInfoComponent,
     UserMenuComponent,
-    UserProfilePage
+    UserProfilePage,
+    ProgressBarComponent
   ],
   imports: [
     HttpModule,

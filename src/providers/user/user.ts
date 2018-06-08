@@ -1,11 +1,12 @@
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BaseService } from '../base/base';
 
 import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { User } from '../../models/user.model';
 import { AuthProvider } from '../auth/auth';
+import { FirebaseApp } from 'angularfire2';
 
 
 
@@ -17,11 +18,13 @@ export class UserProvider extends BaseService {
   currentUser: Observable<User>;
   userObject: AngularFireObject<User>;
   currentUserUid: string;
+  currentUserPhotoUrl: string;
 
   constructor(
     public db: AngularFireDatabase,
     public http: Http,
-    public authService: AuthProvider
+    public authService: AuthProvider,
+    @Inject(FirebaseApp) public firebaseApp: any
   ) {
     super();
 
@@ -73,5 +76,8 @@ export class UserProvider extends BaseService {
       .catch(this.handlePromiseError);
   }
 
+  uploadPhoto(file: File, UID: string): firebase.storage.UploadTask {
+    return this.firebaseApp.storage().ref().child(`/users/${UID}`).put(file);
+  }
 
 }
